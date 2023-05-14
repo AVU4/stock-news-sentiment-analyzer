@@ -1,0 +1,7 @@
+name: load-dataset-actions
+on: [workflow_dispatch]
+jobs:
+  load_dataset:
+    runs-on: ubuntu-latest
+      - name: download file from Github
+      run: curl -o dataset.tsv https://raw.githubusercontent.com/WebOfRussia/financial-news-sentiment/main/data/data.tsv
