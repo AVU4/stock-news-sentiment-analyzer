@@ -3,5 +3,6 @@ on: [workflow_dispatch]
 jobs:
   load_dataset:
     runs-on: ubuntu-latest
+    steps:
       - name: download file from Github
-      run: curl -o dataset.tsv https://raw.githubusercontent.com/WebOfRussia/financial-news-sentiment/main/data/data.tsv
+        run: curl -o dataset.tsv https://raw.githubusercontent.com/WebOfRussia/financial-news-sentiment/main/data/data.tsv
