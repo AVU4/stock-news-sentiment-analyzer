@@ -13,7 +13,7 @@ def get_connection():
 
 
 def drop_table(cursor, table_name):
-    cursor.execute(sql.SQL("DROP TABLE IF EXIST {table};").format(table=table_name))
+    cursor.execute(sql.SQL("DROP TABLE IF EXIST {table};").format(table=sql.Identifier(table_name)))
 
 
 def create_table(connection, table_name):
@@ -35,9 +35,9 @@ def create_table(connection, table_name):
 def save_data(connection, data, table_name):
     cursor = connection.cursor()
     for index, row in data.iterrows():
-        cursor.execute(sql.SQL(
-            "insert into %s (id, title, score, link, summary, published, tickers) values (%s, %s, %s, %s, %s, %s, %s)")
-        .format(table_name, index, row['title'], row['score'], row['link'], row['summary'], row['published'], row['tickers']))
+        cursor.execute(sql.SQL("INSERT INTO {table}(id, title, score, link, summary, published, tickers) values (%s, %s, %s, %s, %s, %s, %s)")
+                       .format(table=sql.Identifier(table_name)),
+                       (index, row['title'], row['score'], row['link'], row['summary'], row['published'], row['tickers']))
     cursor.close()
     connection.commit()
 
