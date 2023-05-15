@@ -11,4 +11,4 @@ jobs:
       - name: Download file from Github
         run: curl -o dataset.tsv https://raw.githubusercontent.com/WebOfRussia/financial-news-sentiment/main/data/data.tsv
       - name: Load dataset
-        run: python src/load_dataset.py dataset.tsv
+        run: python3 src/load_dataset.py dataset.tsv
