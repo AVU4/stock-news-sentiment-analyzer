@@ -13,7 +13,7 @@ def get_connection():
 
 
 def drop_table(cursor, table_name):
-    cursor.execute(sql.SQL("DROP TABLE {table} IF EXIST {table};").format(table=sql.Identifier(table_name)))
+    cursor.execute(sql.SQL("DROP TABLE {table};").format(table=sql.Identifier(table_name)))
 
 
 def create_table(connection, table_name):
