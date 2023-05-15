@@ -13,3 +13,13 @@ jobs:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: python3 src/load_dataset.py dataset.tsv
+  handle_dataset:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Handle dataset
+        env:
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD:  ${{secrets.DB_PASSWORD}}
+        run: python3 src/handle_dataset.py
