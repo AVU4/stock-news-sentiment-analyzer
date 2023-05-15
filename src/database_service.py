@@ -37,7 +37,7 @@ def save_data(connection, data, table_name):
     for index, row in data.iterrows():
         cursor.execute(sql.SQL("INSERT INTO {table}(id, title, score, link, summary, published, tickers) values (%s, %s, %s, %s, %s, %s, %s)")
                        .format(table=sql.Identifier(table_name)),
-                       (index, row['title'], row['score'], row['link'], row['summary'], row['published'], row['tickers']))
+                       (index, row['title'], row['score'], row['link'], row['summary'], row['published'], row['tickers'].replace('[', '{').replace(']', '}')))
     cursor.close()
     connection.commit()
 
