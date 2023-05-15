@@ -6,8 +6,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install dependency
-        run: pip install -r resources/requirements.txt
       - name: Download file from Github
         run: curl -o dataset.tsv https://raw.githubusercontent.com/WebOfRussia/financial-news-sentiment/main/data/data.tsv
       - name: Load dataset
