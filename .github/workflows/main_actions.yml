@@ -2,6 +2,8 @@ name: main-actions
 on: [workflow_dispatch]
 jobs:
   fit_models:
+    permissions:
+      contents: write
     runs-on: self-hosted
     steps:
       - name: Checkout repository
