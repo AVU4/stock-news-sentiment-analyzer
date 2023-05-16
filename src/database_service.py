@@ -13,6 +13,23 @@ def get_connection():
     )
 
 
+def save_vectorizer(connection, vectorizer_name, filename, current_version):
+    cursor = connection.cursor()
+    with open(filename, "rb") as file:
+        cursor.execute(sql.SQL("INSERT INTO vectorizer (name, data, version) VALUES (%s, %s, %s)"),
+                       (vectorizer_name, file.read(), current_version))
+    cursor.close()
+    connection.commit()
+
+def save_model(connection, model_name, filename, current_model_version):
+    cursor = connection.cursor()
+    with open(filename, "rb") as file:
+        cursor.execute(sql.SQL("INSERT INTO model (name, data, version) VALUES (%s, %s, %s)"),
+                       (model_name, file.read(), current_model_version))
+    cursor.close()
+    connection.commit()
+
+
 def drop_table(cursor, table_name):
     cursor.execute(sql.SQL("DROP TABLE {table};").format(table=sql.Identifier(table_name)))
 
@@ -42,9 +59,18 @@ def save_data(connection, data, table_name):
     connection.commit()
 
 
-def get_data_from_table(connection, table_name):
+def get_raw_data_from_table(connection, table_name):
     cursor = connection.cursor()
     cursor.execute(sql.SQL("select id, score, summary from {table}").format(table=sql.Identifier(table_name)))
+    result = DataFrame(cursor.fetchall(), index=None)
+    result.set_index(0, inplace=True)
+    cursor.close()
+    return result
+
+
+def get_data_from_table(connection, table_name):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("select * from {table}").format(table=sql.Identifier(table_name)))
     result = DataFrame(cursor.fetchall(), index=None)
     result.set_index(0, inplace=True)
     cursor.close()

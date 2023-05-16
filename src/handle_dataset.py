@@ -1,12 +1,10 @@
-from database_service import get_data_from_table, get_connection, save_data, create_modified_table, save_modified_data
-from sklearn.model_selection import train_test_split
-import nltk
-import pickle
 import re
+import nltk
+import pymorphy2
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import pymorphy2
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from database_service import get_raw_data_from_table, get_connection, create_modified_table, save_modified_data
 
 
 def modify_text(text, morph):
@@ -27,7 +25,7 @@ def label_score(score):
 
 if __name__ == "__main__":
     connection = get_connection()
-    data = get_data_from_table(connection, "DATASET_RAW")
+    data = get_raw_data_from_table(connection, "DATASET_RAW")
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
 
     morph_analyzer = pymorphy2.MorphAnalyzer()
