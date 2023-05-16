@@ -10,7 +10,7 @@ jobs:
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-        run: python3 fit_models.py
+        run: python3 src/fit_models.py
       - name: Commit changes of version
         uses: EndBug/add-and-commit@v9.1.1
         with:
@@ -26,4 +26,4 @@ jobs:
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-        run: python3 estimate_models.py
+        run: python3 src/estimate_models.py
