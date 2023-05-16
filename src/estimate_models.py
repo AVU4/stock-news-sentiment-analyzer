@@ -46,7 +46,7 @@ def estimate_logistic_regression(connection, vectorizer, version, test_x, test_y
 
 def get_version():
     with open("resources/model_version.txt", "r") as file:
-        return int(file.readline(1))
+        return int(file.readline(1)) + 1
 
 
 if __name__ == "__main__":

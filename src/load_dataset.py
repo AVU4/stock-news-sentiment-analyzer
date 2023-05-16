@@ -9,7 +9,6 @@ def handle_dataset(filename):
     create_table(connection, 'DATASET_RAW')
     save_data(connection, data, 'DATASET_RAW')
     connection.close()
-    print(data)
 
 
 if __name__ == "__main__":
