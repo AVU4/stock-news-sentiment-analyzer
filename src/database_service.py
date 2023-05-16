@@ -8,9 +8,16 @@ def get_connection():
     return psycopg2.connect(
         host="localhost",
         database="aii",
-        user="postgres",
-        password="test"
+        user=os.getenv("DB_USERNAME"),
+        password=os.getenv("DB_PASSWORD")
     )
+
+
+def update_model_metrics(connection, model_name, current_version, accuracy_score, duration):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("update model set accuracy=%s, time=%s where name=%s and version=%s"), (accuracy_score, duration, model_name, current_version))
+    cursor.close()
+    connection.commit()
 
 
 def get_model_by_version(connection, model_name, filename, current_version):

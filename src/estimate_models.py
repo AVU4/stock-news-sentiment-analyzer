@@ -2,7 +2,8 @@ import pickle
 import time
 import os
 from sklearn.metrics import accuracy_score
-from database_service import get_connection, get_vectorizer_by_version, get_data_from_table, get_model_by_version
+from database_service import get_connection, get_vectorizer_by_version, get_data_from_table, get_model_by_version, \
+    update_model_metrics
 
 
 def get_vectorizer(connection, version):
@@ -24,9 +25,8 @@ def estimate_random_forest(connection, vectorizer, version, test_x, test_y):
     start = time.time()
     predicted_y = model.predict(vectorized_test_x)
     duration = time.time() - start
-    print(accuracy_score(test_y, predicted_y))
-    print(duration)
-    #todo save metrics of model
+    accuracy = accuracy_score(test_y, predicted_y)
+    update_model_metrics(connection, "random_forest", version, accuracy, duration)
 
 
 
@@ -40,8 +40,8 @@ def estimate_logistic_regression(connection, vectorizer, version, test_x, test_y
     start = time.time()
     predicted_y = model.predict(vectorized_test_x)
     duration = time.time() - start
-    print(accuracy_score(test_y, predicted_y))
-    print(duration)
+    accuracy = accuracy_score(test_y, predicted_y)
+    update_model_metrics(connection, "logistic_regression", version, accuracy, duration)
 
 
 def get_version():
