@@ -12,7 +12,7 @@ def fit_vectorizer(connection, model_version):
     train_data = get_data_from_table(connection, "DATASET_TRAIN")
     train_x = tf_idf_vectorizer.fit_transform(train_data[2])
 
-    filename = "../resources/vectorizer.txt"
+    filename = "resources/vectorizer.txt"
     with open(filename, "wb") as file:
         pickle.dump(tf_idf_vectorizer, file)
     save_vectorizer(connection, "tf_idf", filename, model_version)
@@ -24,7 +24,7 @@ def fit_vectorizer(connection, model_version):
 def fit_logistic_regression_model(connection, model_version, train_x, train_y):
     model = LogisticRegression(random_state=100)
     model.fit(train_x, train_y)
-    filename = "../resources/model.txt"
+    filename = "resources/model.txt"
     with open(filename, "wb") as file:
         pickle.dump(model, file)
     save_model(connection, "logistic_regression", filename, model_version)
@@ -34,7 +34,7 @@ def fit_logistic_regression_model(connection, model_version, train_x, train_y):
 def fit_random_forest_classifier(connection, model_version, train_x, train_y):
     model = RandomForestClassifier(random_state=100)
     model.fit(train_x, train_y)
-    filename = "../resources/model.txt"
+    filename = "resources/model.txt"
     with open(filename, "wb") as file:
         pickle.dump(model, file)
     save_model(connection, "random_forest", filename, model_version)

@@ -7,7 +7,7 @@ from database_service import get_connection, get_vectorizer_by_version, get_data
 
 
 def get_vectorizer(connection, version):
-    filename = "../resources/vectorizer.txt"
+    filename = "resources/vectorizer.txt"
     get_vectorizer_by_version(connection, "tf_idf", filename, version)
     with open(filename, "rb") as file:
          vectorizer = pickle.load(file)
@@ -17,7 +17,7 @@ def get_vectorizer(connection, version):
 
 def estimate_random_forest(connection, vectorizer, version, test_x, test_y):
     vectorized_test_x = vectorizer.transform(test_x)
-    filename = "../resources/model.txt"
+    filename = "resources/model.txt"
     get_model_by_version(connection, "random_forest", filename, version)
     with open(filename, "rb") as file:
         model = pickle.load(file)
@@ -32,7 +32,7 @@ def estimate_random_forest(connection, vectorizer, version, test_x, test_y):
 
 def estimate_logistic_regression(connection, vectorizer, version, test_x, test_y):
     vectorized_test_x = vectorizer.transform(test_x)
-    filename = "../resources/model.txt"
+    filename = "resources/model.txt"
     get_model_by_version(connection, "logistic_regression", filename, version)
     with open(filename, "rb") as file:
         model = pickle.load(file)
@@ -45,7 +45,7 @@ def estimate_logistic_regression(connection, vectorizer, version, test_x, test_y
 
 
 def get_version():
-    with open("../resources/model_version.txt", "r") as file:
+    with open("resources/model_version.txt", "r") as file:
         return int(file.readline())
 
 
