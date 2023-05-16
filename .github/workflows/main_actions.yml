@@ -1,7 +1,7 @@
 name: main-actions
 on: [workflow_dispatch]
 jobs:
-  Fit_models:
+  fit_models:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
@@ -16,9 +16,9 @@ jobs:
         with:
             default_author: github_actions
             message: 'Commit changes of version'
-  Estimate_models:
+  estimate_models:
     runs-on: self-hosted
-    needs: Fit_models
+    needs: fit_models
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

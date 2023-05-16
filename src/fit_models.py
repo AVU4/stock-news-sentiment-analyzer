@@ -43,10 +43,9 @@ def fit_random_forest_classifier(connection, model_version, train_x, train_y):
 
 def get_and_update_version():
     with open("../resources/model_version.txt", "r+") as file:
-        version = file.readline(1)
-        new_version = int(version) + 1
+        version = int(file.readline(1)) + 1
         file.seek(0)
-        file.write(str(new_version))
+        file.write(str(version))
         file.truncate()
         return version
 

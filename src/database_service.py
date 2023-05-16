@@ -8,24 +8,42 @@ def get_connection():
     return psycopg2.connect(
         host="localhost",
         database="aii",
-        user=os.getenv("DB_USERNAME"),
-        password=os.getenv("DB_PASSWORD")
+        user="postgres",
+        password="test"
     )
 
+
+def get_model_by_version(connection, model_name, filename, current_version):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("SELECT model_data from model where version=%s and name=%s"), (current_version, model_name))
+    model_data = cursor.fetchone()[0]
+    with open(filename, "wb") as file:
+        file.write(model_data)
+    cursor.close()
+
+
+def get_vectorizer_by_version(connection, vectorizer_name, filename, current_version):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("SELECT vectorizer_data from vectorizer where version=%s and name=%s"), (current_version, vectorizer_name))
+    vectorizer_data = cursor.fetchone()[0]
+    with open(filename, "wb") as file:
+        file.write(vectorizer_data)
+    cursor.close()
 
 def save_vectorizer(connection, vectorizer_name, filename, current_version):
     cursor = connection.cursor()
     with open(filename, "rb") as file:
-        cursor.execute(sql.SQL("INSERT INTO vectorizer (name, data, version) VALUES (%s, %s, %s)"),
-                       (vectorizer_name, file.read(), current_version))
+        cursor.execute(sql.SQL("INSERT INTO vectorizer (name, vectorizer_data, version) VALUES (%s, %s, %s)"),
+                       (vectorizer_name, psycopg2.Binary(file.read()), current_version))
     cursor.close()
     connection.commit()
+
 
 def save_model(connection, model_name, filename, current_model_version):
     cursor = connection.cursor()
     with open(filename, "rb") as file:
-        cursor.execute(sql.SQL("INSERT INTO model (name, data, version) VALUES (%s, %s, %s)"),
-                       (model_name, file.read(), current_model_version))
+        cursor.execute(sql.SQL("INSERT INTO model (name, model_data, version) VALUES (%s, %s, %s)"),
+                       (model_name, psycopg2.Binary(file.read()), current_model_version))
     cursor.close()
     connection.commit()
 
