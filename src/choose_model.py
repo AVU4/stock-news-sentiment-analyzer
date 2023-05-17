@@ -18,7 +18,7 @@ def select_model(connection, version):
 
 
 def get_version():
-    with open("../resources/model_version.txt", "r") as file:
+    with open("resources/model_version.txt", "r") as file:
         return int(file.readline(1)) + 1
 
 
