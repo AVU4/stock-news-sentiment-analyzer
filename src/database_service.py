@@ -64,10 +64,6 @@ def save_model(connection, model_name, filename, current_model_version):
     connection.commit()
 
 
-def drop_table(cursor, table_name):
-    cursor.execute(sql.SQL("DROP TABLE {table};").format(table=sql.Identifier(table_name)))
-
-
 def create_table_with_raw_data(connection, table_name):
     cursor = connection.cursor()
     cursor.execute(sql.SQL(

@@ -15,6 +15,7 @@ jobs:
         run: python3 src/load_dataset.py dataset.tsv
   handle_dataset:
     runs-on: self-hosted
+    needs: load_dataset
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
