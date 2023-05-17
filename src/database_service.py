@@ -20,6 +20,7 @@ def get_model_metrics(connection, current_version):
     cursor.close()
     return result
 
+
 def update_model_metrics(connection, model_name, current_version, accuracy_score, duration):
     cursor = connection.cursor()
     cursor.execute(sql.SQL("update model set accuracy=%s, time=%s where name=%s and version=%s"), (accuracy_score, duration, model_name, current_version))
@@ -36,13 +37,14 @@ def get_model_by_version(connection, model_name, filename, current_version):
     cursor.close()
 
 
-def get_vectorizer_by_version(connection, vectorizer_name, filename, current_version):
+def get_vectorizer(connection, vectorizer_name, filename, current_version):
     cursor = connection.cursor()
     cursor.execute(sql.SQL("SELECT vectorizer_data from vectorizer where version=%s and name=%s"), (current_version, vectorizer_name))
     vectorizer_data = cursor.fetchone()[0]
     with open(filename, "wb") as file:
         file.write(vectorizer_data)
     cursor.close()
+
 
 def save_vectorizer(connection, vectorizer_name, filename, current_version):
     cursor = connection.cursor()
@@ -66,7 +68,7 @@ def drop_table(cursor, table_name):
     cursor.execute(sql.SQL("DROP TABLE {table};").format(table=sql.Identifier(table_name)))
 
 
-def create_table(connection, table_name):
+def create_table_with_raw_data(connection, table_name):
     cursor = connection.cursor()
     cursor.execute(sql.SQL(
         "CREATE TABLE {table} ("

@@ -1,4 +1,5 @@
 from database_service import get_connection, get_model_metrics, save_best_model
+from util import get_version
 
 
 class Model:
@@ -15,11 +16,6 @@ def select_model(connection, version):
         result.append(Model(row[0], score))
     result.sort(key=lambda x: x.score)
     save_best_model(connection, version, result[0].name, result[0].score)
-
-
-def get_version():
-    with open("resources/model_version.txt", "r") as file:
-        return int(file.readline(1)) + 1
 
 
 if __name__ == "__main__":
