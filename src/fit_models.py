@@ -29,7 +29,7 @@ def fit_logistic_regression_model(connection, model_version, train_x, train_y):
     filename = FILES.MODEL_FILE.value
     with open(filename, "wb") as file:
         pickle.dump(model, file)
-    save_model(connection, MODELS.LOGISTIC_REGRESSION, filename, model_version)
+    save_model(connection, MODELS.LOGISTIC_REGRESSION.value, filename, model_version)
     os.remove(filename)
 
 
@@ -39,7 +39,7 @@ def fit_random_forest_classifier(connection, model_version, train_x, train_y):
     filename = FILES.MODEL_FILE.value
     with open(filename, "wb") as file:
         pickle.dump(model, file)
-    save_model(connection, MODELS.RANDOM_FOREST, filename, model_version)
+    save_model(connection, MODELS.RANDOM_FOREST.value, filename, model_version)
     os.remove(filename)
 
 
