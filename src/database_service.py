@@ -15,7 +15,6 @@ def get_connection():
 
 def get_model_metrics(connection, current_version):
     cursor = connection.cursor()
-    current_version = current_version - 1
     cursor.execute(sql.SQL("select name, accuracy, time from model where version=%s"), [current_version])
     result = DataFrame(cursor.fetchall(), index=None)
     cursor.close()
