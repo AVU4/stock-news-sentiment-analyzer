@@ -17,7 +17,7 @@ def fit_tf_idf_vectorizer(connection, model_version):
     filename = FILES.VECTORIZER_FILE.value
     with open(filename, "wb") as file:
         pickle.dump(tf_idf_vectorizer, file)
-    save_vectorizer(connection, VECTORIZERS.TF_IDF, filename, model_version)
+    save_vectorizer(connection, VECTORIZERS.TF_IDF.value, filename, model_version)
     os.remove(filename)
 
     return train_x, train_data[1]
