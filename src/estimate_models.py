@@ -3,14 +3,14 @@ import time
 import os
 from util import MODELS, FILES, VECTORIZERS
 from sklearn.metrics import accuracy_score
-from database_service import get_connection, get_vectorizer, get_data_from_table, get_model_by_version, \
+from database_service import get_connection, get_vectorizer_from_db, get_data_from_table, get_model_by_version, \
     update_model_metrics
 from util import get_version
 
 
 def get_vectorizer(connection, version, vectorizer_name):
     filename = FILES.VECTORIZER_FILE.value
-    get_vectorizer(connection, vectorizer_name, filename, version)
+    get_vectorizer_from_db(connection, vectorizer_name, filename, version)
     with open(filename, "rb") as file:
          vectorizer = pickle.load(file)
     os.remove(filename)

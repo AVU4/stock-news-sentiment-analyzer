@@ -37,7 +37,7 @@ def get_model_by_version(connection, model_name, filename, current_version):
     cursor.close()
 
 
-def get_vectorizer(connection, vectorizer_name, filename, current_version):
+def get_vectorizer_from_db(connection, vectorizer_name, filename, current_version):
     cursor = connection.cursor()
     cursor.execute(sql.SQL("SELECT vectorizer_data from vectorizer where version=%s and name=%s"), (current_version, vectorizer_name))
     vectorizer_data = cursor.fetchone()[0]
