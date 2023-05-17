@@ -13,6 +13,14 @@ def get_connection():
     )
 
 
+def get_model_metrics(connection, current_version):
+    cursor = connection.cursor()
+    current_version = current_version - 1
+    cursor.execute(sql.SQL("select name, accuracy, time from model where version=%s"), [current_version])
+    result = DataFrame(cursor.fetchall(), index=None)
+    cursor.close()
+    return result
+
 def update_model_metrics(connection, model_name, current_version, accuracy_score, duration):
     cursor = connection.cursor()
     cursor.execute(sql.SQL("update model set accuracy=%s, time=%s where name=%s and version=%s"), (accuracy_score, duration, model_name, current_version))
@@ -113,6 +121,13 @@ def save_modified_data(connection, data, table_name):
     cursor = connection.cursor()
     for index, row in data.iterrows():
         cursor.execute(sql.SQL("INSERT INTO {table} (id, score, summary) values(%s, %s, %s)").format(table=sql.Identifier(table_name)), (index, row[1], row[2]))
+    cursor.close()
+    connection.commit()
+
+
+def save_best_model(connection, version, name, score):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("INSERT INTO best_model (version, name, score) values (%s, %s, %s)"), (version, name, score))
     cursor.close()
     connection.commit()
 
