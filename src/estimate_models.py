@@ -36,6 +36,6 @@ if __name__ == "__main__":
     version = get_version()
     data = get_data_from_table(connection, "DATASET_TEST")
     vectorizer = get_vectorizer(connection, version, VECTORIZERS.TF_IDF.value)
-    for model in MODELS.value:
-        save_model(connection, vectorizer, version, model, data[2], data[1])
+    for model in MODELS:
+        save_model(connection, vectorizer, version, model.value, data[2], data[1])
     connection.close()
