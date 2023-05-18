@@ -31,3 +31,10 @@
 
 Датасет содержит оценку экономической новости от -1 до 1, где -1 - отрицательная новость, 1 - позитивная новость.
 
+#### Диаграмма активности
+
+![Image](images/analysis_sensivity_activity_diagram.jpg)
+
+#### Диаграмма компонентов
+
+![Image](images/analysis_sentivity_diagramm_component.jpg)
