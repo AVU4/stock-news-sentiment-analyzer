@@ -42,7 +42,7 @@ if __name__ == "__main__":
     version = get_and_increment_version()
     extra_data = get_data_from_table(connection, "DATASET_EXTRA_TRAIN")
     data = get_data_from_table(connection, "DATASET_TRAIN")
-    extra_train_X = extra_fit_vectorizer(connection, version, VECTORIZERS.TF_IDF.value, np.concatenate((data[2], extra_data[2]), axis=None))
+    extra_train_X = extra_fit_vectorizer(connection, version, VECTORIZERS.TF_IDF.value, extra_data[2])
     for model in MODELS:
-        extra_fit_models(connection, version, model.value, extra_train_X, np.concatenate((data[1], extra_data[1]), axis=None))
+        extra_fit_models(connection, version, model.value, extra_train_X,  extra_data[1])
     connection.close()
