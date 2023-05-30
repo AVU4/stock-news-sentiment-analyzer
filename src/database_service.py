@@ -14,7 +14,7 @@ def get_connection():
 
 def get_best_vectorizer(connection, filename):
     cursor = connection.cursor()
-    cursor.execute(sql.SQL("select vectorizer_data from (select version, name from best_model order by score DESC limit 1) AS BM join vectorizer on BM.version=vectorizer.version"))
+    cursor.execute(sql.SQL("select vectorizer_data from (select version, name from best_model order by score ASC limit 1) AS BM join vectorizer on BM.version=vectorizer.version"))
     vectorizer_data = cursor.fetchone()[0]
     with open(filename, "wb") as file:
         file.write(vectorizer_data)
@@ -22,7 +22,7 @@ def get_best_vectorizer(connection, filename):
 
 def get_best_model(connection, filename):
     cursor = connection.cursor()
-    cursor.execute(sql.SQL("select model_data from (select version, name from best_model order by score DESC limit 1) AS BM join model on BM.name=model.name and BM.version=model.version"))
+    cursor.execute(sql.SQL("select model_data from (select version, name from best_model order by score ASC limit 1) AS BM join model on BM.name=model.name and BM.version=model.version"))
     model_data = cursor.fetchone()[0]
     with open(filename, "wb") as file:
         file.write(model_data)
