@@ -3,14 +3,33 @@ import os
 from psycopg2 import sql
 from pandas import DataFrame
 
+from src.util import FILES
+
 
 def get_connection():
     return psycopg2.connect(
         host="localhost",
         database="aii",
-        user=os.getenv("DB_USERNAME"),
-        password=os.getenv("DB_PASSWORD")
+        user="postgres",
+        password="test"
     )
+
+
+def get_best_vectorizer(connection, filename):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("select vectorizer_data from (select version, name from best_model order by score DESC limit 1) AS BM join vectorizer on BM.version=vectorizer.version"))
+    vectorizer_data = cursor.fetchone()[0]
+    with open(filename, "wb") as file:
+        file.write(vectorizer_data)
+    cursor.close()
+
+def get_best_model(connection, filename):
+    cursor = connection.cursor()
+    cursor.execute(sql.SQL("select model_data from (select version, name from best_model order by score DESC limit 1) AS BM join model on BM.name=model.name and BM.version=model.version"))
+    model_data = cursor.fetchone()[0]
+    with open(filename, "wb") as file:
+        file.write(model_data)
+    cursor.close()
 
 
 def get_model_metrics(connection, current_version):

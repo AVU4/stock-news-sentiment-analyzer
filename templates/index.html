@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News sentiment analysis</title>
+    <style>
+        body, html {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+            flex-direction: column;
+    }
+        .input_style {
+            width: 400px;
+            height: 60px;
+        }
+    </style>
+    <script type="application/javascript">
+
+        function hide_result() {
+            const good_news = document.getElementById("gn")
+            good_news.style.display = 'None'
+
+            const bad_news = document.getElementById("bn")
+            bad_news.style.display = 'None'
+        }
+
+        function append_good_news() {
+            const image = document.getElementById("gn")
+            image.style.display = ''
+        }
+
+        function append_bad_news() {
+            const image = document.getElementById("bn")
+            image.style.display = ''
+        }
+
+        function send_to_analysis() {
+            const text = document.getElementById("text_input").value;
+            console.log(text);
+            fetch('http://localhost:5000/news', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({data: text})
+            })
+                .then(function (response){
+                    return response.json()
+                })
+                .then(function (data) {
+                    const result = data.score
+                    hide_result()
+                    if (result === '-1.0') {
+                        append_bad_news()
+                    } else {
+                        append_good_news()
+                    }
+                })
+        }
+    </script>
+</head>
+<body>
+    <label for="text_input">Введите новость для оценки</label>
+    <div>
+        <input id="text_input" type="text" class="input_style"/>
+    </div>
+    <div>
+        <button onclick="send_to_analysis()">
+            <p>Analysis</p>
+        </button>
+    </div>
+    <div id="result">
+        <img id="gn" style="display: none" src="../static/good_news.jpeg"/>
+        <img id="bn" style="display: none" src="../static/bad_news.jpg"/>
+    </div>
+</body>
+</html>
