@@ -41,5 +41,5 @@ if __name__ == "__main__":
     data = get_data_from_table(connection, "DATASET_EXTRA_TRAIN")
     extra_train_X = extra_fit_vectorizer(connection, version, VECTORIZERS.TF_IDF.value, data[2])
     for model in MODELS:
-        extra_fit_models(connection, version, model.value, data[2], data[1])
+        extra_fit_models(connection, version, model.value, extra_train_X, data[1])
     connection.close()
