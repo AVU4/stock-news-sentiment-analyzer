@@ -21,6 +21,6 @@ def select_model(connection, version):
 
 if __name__ == "__main__":
     connection = get_connection()
-    version = get_version() + os.getenv("INC")
+    version = get_version() + int(os.getenv("INC"))
     select_model(connection, version)
     connection.close()
