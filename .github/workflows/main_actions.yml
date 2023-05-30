@@ -44,6 +44,8 @@ jobs:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: python3 src/choose_model.py
   extra_fit_models:
+    permissions:
+      contents: write
     runs-on: self-hosted
     needs: choose_best_model
     steps:
