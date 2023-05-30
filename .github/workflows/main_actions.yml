@@ -55,7 +55,7 @@ jobs:
         run: python3 src/estimate_models.py
   choose_best_model:
     runs-on: self-hosted
-    needs: estimate_models
+    needs: second_estimate_models
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
