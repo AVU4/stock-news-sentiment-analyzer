@@ -12,6 +12,7 @@ jobs:
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          INC: 0
         run: python3 src/fit_models.py
       - name: Commit changes of version
         uses: EndBug/add-and-commit@v9.1.1
@@ -30,9 +31,21 @@ jobs:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           INC: 0
         run: python3 src/estimate_models.py
-  extra_fit_models:
+  choose_best_model:
     runs-on: self-hosted
     needs: estimate_models
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Choose the best model
+        env:
+          INC: 0
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+        run: python3 src/choose_model.py
+  extra_fit_models:
+    runs-on: self-hosted
+    needs: choose_best_model
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -40,6 +53,7 @@ jobs:
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          INC: 1
         run: python3 src/extra_fit_models.py
   second_estimate_models:
     runs-on: self-hosted
@@ -53,7 +67,7 @@ jobs:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           INC: 1
         run: python3 src/estimate_models.py
-  choose_best_model:
+  extra_choose_best_model:
     runs-on: self-hosted
     needs: second_estimate_models
     steps:
@@ -63,4 +77,5 @@ jobs:
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          INC: 1
         run: python3 src/choose_model.py

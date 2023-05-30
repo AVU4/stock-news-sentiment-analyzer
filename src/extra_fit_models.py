@@ -37,7 +37,7 @@ def extra_fit_models(connection, version, model_name, test_x, test_y):
 
 if __name__ == "__main__":
     connection = get_connection()
-    version = get_and_increment_version()
+    version = get_and_increment_version() + int(os.getenv("INC"))
     data = get_data_from_table(connection, "DATASET_EXTRA_TRAIN")
     extra_train_X = extra_fit_vectorizer(connection, version, VECTORIZERS.TF_IDF.value, data[2])
     for model in MODELS:

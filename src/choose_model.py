@@ -1,5 +1,6 @@
 from database_service import get_connection, get_model_metrics, save_best_model
 from util import get_version
+import os
 
 
 class Model:
@@ -20,6 +21,6 @@ def select_model(connection, version):
 
 if __name__ == "__main__":
     connection = get_connection()
-    version = get_version()
+    version = get_version() + os.getenv("INC")
     select_model(connection, version)
     connection.close()
