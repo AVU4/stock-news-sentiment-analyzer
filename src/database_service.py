@@ -1,9 +1,6 @@
 import psycopg2
-import os
 from psycopg2 import sql
 from pandas import DataFrame
-
-from src.util import FILES
 
 
 def get_connection():
