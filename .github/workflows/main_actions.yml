@@ -19,6 +19,7 @@ jobs:
         with:
             default_author: github_actions
             message: 'Commit changes of version'
+        run: git push
   estimate_models:
     runs-on: self-hosted
     needs: fit_models
