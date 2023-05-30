@@ -33,7 +33,8 @@ def save_model(connection, vectorizer, version, model_name, test_x, test_y):
 
 if __name__ == "__main__":
     connection = get_connection()
-    version = get_version()
+    increment = os.getenv("INC")
+    version = get_version() + increment
     data = get_data_from_table(connection, "DATASET_TEST")
     vectorizer = get_vectorizer(connection, version, VECTORIZERS.TF_IDF.value)
     for model in MODELS:

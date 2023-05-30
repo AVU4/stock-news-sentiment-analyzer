@@ -26,7 +26,8 @@ def label_score(score):
 if __name__ == "__main__":
     connection = get_connection()
     data = get_raw_data_from_table(connection, "DATASET_RAW")
-    train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
+    train_data, test_data = train_test_split(data, test_size=0.4, random_state=42)
+    test_data, extra_train_data = train_test_split(test_data, test_size=0.5, random_state=42)
 
     morph_analyzer = pymorphy2.MorphAnalyzer()
     nltk.download('stopwords')
@@ -43,5 +44,11 @@ if __name__ == "__main__":
 
     create_modified_table(connection, "DATASET_TEST")
     save_modified_data(connection, test_data, "DATASET_TEST")
+
+    extra_train_data[2] = modify_text(extra_train_data[2], morph_analyzer)
+    extra_train_data[1] = extra_train_data[1].apply(lambda v: label_score(v))
+
+    create_modified_table(connection, "DATASET_EXTRA_TRAIN")
+    save_modified_data(connection, extra_train_data, "DATASET_EXTRA_TRAIN")
 
     connection.close()
