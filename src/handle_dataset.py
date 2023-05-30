@@ -26,7 +26,7 @@ def label_score(score):
 if __name__ == "__main__":
     connection = get_connection()
     data = get_raw_data_from_table(connection, "DATASET_RAW")
-    train_data, test_data = train_test_split(data, test_size=0.4, random_state=42)
+    train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
     test_data, extra_train_data = train_test_split(test_data, test_size=0.5, random_state=42)
 
     morph_analyzer = pymorphy2.MorphAnalyzer()
