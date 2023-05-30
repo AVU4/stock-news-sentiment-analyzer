@@ -1,3 +1,5 @@
+import numpy as np
+
 from database_service import get_connection, get_vectorizer_from_db, \
     get_data_from_table, get_model_by_version, save_vectorizer, save_model
 from util import FILES, VECTORIZERS, MODELS, get_and_increment_version
@@ -38,8 +40,9 @@ def extra_fit_models(connection, version, model_name, test_x, test_y):
 if __name__ == "__main__":
     connection = get_connection()
     version = get_and_increment_version()
-    data = get_data_from_table(connection, "DATASET_EXTRA_TRAIN")
-    extra_train_X = extra_fit_vectorizer(connection, version, VECTORIZERS.TF_IDF.value, data[2])
+    extra_data = get_data_from_table(connection, "DATASET_EXTRA_TRAIN")
+    data = get_data_from_table(connection, "DATASET_TRAIN")
+    extra_train_X = extra_fit_vectorizer(connection, version, VECTORIZERS.TF_IDF.value, np.concat(data[2], extra_data[2]))
     for model in MODELS:
-        extra_fit_models(connection, version, model.value, extra_train_X, data[1])
+        extra_fit_models(connection, version, model.value, extra_train_X, np.concat(data[1], extra_data[1]))
     connection.close()
