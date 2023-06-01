@@ -59,6 +59,7 @@ jobs:
   choose_best_model:
     runs-on: self-hosted
     needs: estimate_models
+    if: always()
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -71,6 +72,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: choose_best_model
+    if: always()
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
