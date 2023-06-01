@@ -6,7 +6,7 @@ if [ -f "$PID_FILE" ]; then
     kill $(cat PID_FILE)
 fi
 
-python3 app.py 1> log.txt &
+python3 app.py &
 pid=$?
 echo "$pid" > $PID_FILE
 
