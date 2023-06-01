@@ -80,6 +80,4 @@ jobs:
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-        run: |
-          chmod 777 resources/deploy_script.sh
-          resources/deploy_script.sh
+        run: curl "http://localhost:5000/update"
