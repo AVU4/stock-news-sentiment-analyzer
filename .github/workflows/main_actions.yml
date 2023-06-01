@@ -82,4 +82,4 @@ jobs:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: |
           chmod 777 resources/deploy_script.sh
-          ./deploy_script.sh
+          resources/deploy_script.sh
