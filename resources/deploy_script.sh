@@ -9,5 +9,3 @@ fi
 python3 app.py &
 pid=$?
 echo "$pid" > $PID_FILE
-
-disown
